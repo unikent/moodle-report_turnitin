@@ -47,7 +47,7 @@ foreach ($courses as $course) {
 		continue;
 	}
 
-	$turnitintooltwos = \turnitintooltwo_assignment::get_all_assignments_in_course($course);
+	$turnitintooltwos = get_all_instances_in_course("turnitintooltwo", $course);
 	foreach ($turnitintooltwos as $turnitintooltwo) {
 		$cells["course"] = new html_table_cell(\html_writer::link(new \moodle_url('/course/view.php', array(
 			'id' => $course->id
