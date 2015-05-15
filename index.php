@@ -17,6 +17,13 @@
 require(dirname(__FILE__).'/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 
+$courses = enrol_get_users_courses($USER->id, false);
+if (!empty($courses)) {
+    $course = reset($courses);
+    $context = \context_course::instance($course->id);
+    $PAGE->set_context($context);
+}
+
 admin_externalpage_setup('reportturnitin', '', null, '', array('pagelayout' => 'report'));
 
 $page    = optional_param('page', 0, PARAM_INT);
@@ -41,7 +48,6 @@ $cells["number_of_parts"] = new html_table_cell(get_string("numberofparts", "tur
 $cells["submissions"] = new html_table_cell(get_string("submissions", "turnitintooltwo"));
 $table->head = $cells;
 
-$courses = enrol_get_users_courses($USER->id, false);
 foreach ($courses as $course) {
 	if (!has_capability('moodle/course:update', \context_course::instance($course->id))) {
 		continue;
