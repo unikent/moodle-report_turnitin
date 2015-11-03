@@ -17,6 +17,11 @@
 require(dirname(__FILE__).'/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 
+$category = optional_param('category', 0, PARAM_INT);
+if ($category > 0) {
+    $PAGE->set_context(\context_coursecat::instance($category));
+}
+
 admin_externalpage_setup('reportturnitin', '', null, '', array('pagelayout' => 'report'));
 
 $page    = optional_param('page', 0, PARAM_INT);

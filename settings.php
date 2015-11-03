@@ -17,8 +17,7 @@
 /**
  * Turnitin report.
  *
- * @package   report
- * @subplugin turnitin
+ * @package   report_turnitin
  * @copyright 2015 Skylar Kelty <S.Kelty@kent.ac.uk>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,10 +25,11 @@
 defined('MOODLE_INTERNAL') || die;
 
 $ADMIN->add('reports', new admin_externalpage(
-	'reportturnitin',
-	get_string('pluginname', 'report_turnitin'),
-	new \moodle_url("/report/turnitin/index.php"),
-	'report/turnitin:view'
+    'reportturnitin',
+    get_string('pluginname', 'report_turnitin'),
+    new \moodle_url("/report/turnitin/index.php"),
+    'report/turnitin:view',
+    true
 ));
 
 // No report settings.
