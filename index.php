@@ -49,61 +49,61 @@ $cells["submissions"] = new html_table_cell(get_string("submissions", "turnitint
 $table->head = $cells;
 
 foreach ($courses as $course) {
-	if (!has_capability('moodle/course:update', \context_course::instance($course->id))) {
-		continue;
-	}
+    if (!has_capability('moodle/course:update', \context_course::instance($course->id))) {
+        continue;
+    }
 
-	$turnitintooltwos = get_all_instances_in_course("turnitintooltwo", $course);
-	foreach ($turnitintooltwos as $turnitintooltwo) {
-		$cells["course"] = new html_table_cell(\html_writer::link(new \moodle_url('/course/view.php', array(
-			'id' => $course->id
-		)), $course->shortname));
+    $turnitintooltwos = get_all_instances_in_course("turnitintooltwo", $course);
+    foreach ($turnitintooltwos as $turnitintooltwo) {
+        $cells["course"] = new html_table_cell(\html_writer::link(new \moodle_url('/course/view.php', array(
+            'id' => $course->id
+        )), $course->shortname));
 
-	    $cm = get_coursemodule_from_id('turnitintooltwo', $turnitintooltwo->coursemodule, $course->id);
-	    $turnitintooltwoassignment = new turnitintooltwo_assignment($turnitintooltwo->id, $turnitintooltwo);
+        $cm = get_coursemodule_from_id('turnitintooltwo', $turnitintooltwo->coursemodule, $course->id);
+        $turnitintooltwoassignment = new turnitintooltwo_assignment($turnitintooltwo->id, $turnitintooltwo);
 
-	    // Show links dimmed if the mod is hidden.
-	    $attributes["class"] = (!$turnitintooltwo->visible) ? 'dimmed' : '';
-	    $linkurl = $CFG->wwwroot.'/mod/turnitintooltwo/view.php?id='.
-	                    $turnitintooltwoassignment->turnitintooltwo->coursemodule.'&do=submissions';
+        // Show links dimmed if the mod is hidden.
+        $attributes["class"] = (!$turnitintooltwo->visible) ? 'dimmed' : '';
+        $linkurl = $CFG->wwwroot.'/mod/turnitintooltwo/view.php?id='.
+                        $turnitintooltwoassignment->turnitintooltwo->coursemodule.'&do=submissions';
 
-	    $cells["name"] = new html_table_cell(html_writer::link($linkurl, $turnitintooltwo->name, $attributes));
+        $cells["name"] = new html_table_cell(html_writer::link($linkurl, $turnitintooltwo->name, $attributes));
 
-	    $records = $DB->get_records('turnitintooltwo_parts', array(
-	    	'turnitintooltwoid' => $turnitintooltwo->id
-	    ));
+        $records = $DB->get_records('turnitintooltwo_parts', array(
+            'turnitintooltwoid' => $turnitintooltwo->id
+        ));
 
-	    $dates = new \stdClass();
-	    foreach ($records as $record) {
-	    	$dates->dtstart = (empty($dates->dtstart) ? '' : '<br />') . userdate($record->dtstart, get_string('strftimedatetimeshort', 'langconfig'));
-	    	$dates->dtdue = (empty($dates->dtdue) ? '' : '<br />') . userdate($record->dtdue, get_string('strftimedatetimeshort', 'langconfig'));
-	    	$dates->dtpost = (empty($dates->dtpost) ? '' : '<br />') . userdate($record->dtpost, get_string('strftimedatetimeshort', 'langconfig'));
-	    }
+        $dates = new \stdClass();
+        foreach ($records as $record) {
+            $dates->dtstart = (empty($dates->dtstart) ? '' : '<br />') . userdate($record->dtstart, get_string('strftimedatetimeshort', 'langconfig'));
+            $dates->dtdue = (empty($dates->dtdue) ? '' : '<br />') . userdate($record->dtdue, get_string('strftimedatetimeshort', 'langconfig'));
+            $dates->dtpost = (empty($dates->dtpost) ? '' : '<br />') . userdate($record->dtpost, get_string('strftimedatetimeshort', 'langconfig'));
+        }
 
 
-	    $cells["start_date"] = new html_table_cell($dates->dtstart);
-	    $cells["start_date"]->attributes["class"] = "centered_cell";
+        $cells["start_date"] = new html_table_cell($dates->dtstart);
+        $cells["start_date"]->attributes["class"] = "centered_cell";
 
-	    $cells["due_date"] = new html_table_cell($dates->dtdue);
-	    $cells["due_date"]->attributes["class"] = "centered_cell";
+        $cells["due_date"] = new html_table_cell($dates->dtdue);
+        $cells["due_date"]->attributes["class"] = "centered_cell";
 
-	    $cells["post_date"] = new html_table_cell($dates->dtpost);
-	    $cells["post_date"]->attributes["class"] = "centered_cell";
+        $cells["post_date"] = new html_table_cell($dates->dtpost);
+        $cells["post_date"]->attributes["class"] = "centered_cell";
 
-	    $cells["number_of_parts"] = new html_table_cell(count($turnitintooltwoassignment->get_parts()));
-	    $cells["number_of_parts"]->attributes["class"] = "centered_cell";
+        $cells["number_of_parts"] = new html_table_cell(count($turnitintooltwoassignment->get_parts()));
+        $cells["number_of_parts"]->attributes["class"] = "centered_cell";
 
-	    if (has_capability('mod/turnitintooltwo:grade', context_module::instance($cm->id))) {
-	        $noofsubmissions = $turnitintooltwoassignment->count_submissions($cm, 0);
-	    } else {
-	        $noofsubmissions = count($turnitintooltwoassignment->get_user_submissions($USER->id,
-	                                                $turnitintooltwoassignment->turnitintooltwo->id));
-	    }
-	    $cells["submissions"] = new html_table_cell(html_writer::link($linkurl, $noofsubmissions, $attributes));
-	    $cells["submissions"]->attributes["class"] = "centered_cell";
+        if (has_capability('mod/turnitintooltwo:grade', context_module::instance($cm->id))) {
+            $noofsubmissions = $turnitintooltwoassignment->count_submissions($cm, 0);
+        } else {
+            $noofsubmissions = count($turnitintooltwoassignment->get_user_submissions($USER->id,
+                                                    $turnitintooltwoassignment->turnitintooltwo->id));
+        }
+        $cells["submissions"] = new html_table_cell(html_writer::link($linkurl, $noofsubmissions, $attributes));
+        $cells["submissions"]->attributes["class"] = "centered_cell";
 
-	    $table->data[] = new html_table_row($cells);
-	}
+        $table->data[] = new html_table_row($cells);
+    }
 }
 
 echo $OUTPUT->box(html_writer::table($table), 'generalbox boxaligncenter');
