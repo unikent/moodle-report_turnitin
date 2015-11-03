@@ -17,12 +17,20 @@
 require(dirname(__FILE__).'/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 
+$PAGE->set_url("/report/turnitin/index.php");
+
 $category = optional_param('category', 0, PARAM_INT);
 if ($category > 0) {
     $PAGE->set_context(\context_coursecat::instance($category));
-}
 
-admin_externalpage_setup('reportturnitin', '', null, '', array('pagelayout' => 'report'));
+    require_login();
+    require_capability('report/turnitin:view', $PAGE->context);
+
+    $PAGE->set_title('Turnitin Report');
+    $PAGE->set_heading('Turnitin Report');
+} else {
+    admin_externalpage_setup('reportturnitin', '', null, '', array('pagelayout' => 'report'));
+}
 
 $page    = optional_param('page', 0, PARAM_INT);
 $perpage = optional_param('perpage', 30, PARAM_INT);
