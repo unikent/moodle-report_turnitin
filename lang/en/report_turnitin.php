@@ -24,4 +24,4 @@
  */
 
 $string['pluginname'] = 'Turnitin Report';
-$string['turnitin:view'] = 'View Student Activity Report';
+$string['turnitin:view'] = 'View Turnitin Report';
