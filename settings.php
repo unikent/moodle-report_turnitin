@@ -27,7 +27,8 @@ defined('MOODLE_INTERNAL') || die;
 $ADMIN->add('reports', new admin_externalpage(
     'reportturnitin',
     get_string('pluginname', 'report_turnitin'),
-    new \moodle_url('/report/turnitin/index.php')
+    new \moodle_url('/report/turnitin/index.php'),
+    'report/turnitin:view'
 ));
 
 // No report settings.
