@@ -24,8 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-debugging("report_turnitin is deprecated");
-
 $ADMIN->add('reports', new admin_externalpage(
     'reportturnitin',
     get_string('pluginname', 'report_turnitin'),
